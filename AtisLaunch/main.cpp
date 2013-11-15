@@ -4,6 +4,6 @@
 
 
 int main(int argc, char* argv[]) {
-
+	int sorte_mennesker = 1;
 	return 0;
 }
