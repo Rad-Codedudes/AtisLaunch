@@ -1,4 +1,5 @@
 #include <vector>
+#include <sstream>
 
 
 #include <SFML\Graphics.hpp>
@@ -14,6 +15,8 @@ namespace GameState {
 	};
 }
 
+#include "res.h"
+
 #include "objects.h"
 
 #include "game_functions.hpp"
@@ -21,10 +24,13 @@ namespace GameState {
 
 void play() {
 
-	std::vector<Object*> objects;
-	objects.push_back(new Player());
+	sf::Text debugText("Hej!", Resource::defaultFont, 30);
 
-	sf::View view(sf::Vector2f(640, 360), sf::Vector2f(1280, 720));
+	Resource::background.setRepeated(true);
+	sf::Sprite bg(Resource::background, sf::IntRect(0, 0, 10000, 10000));
+
+	
+	objects.push_back(new Player());
 
 	sf::Clock deltaClock;
 	sf::Event event;
@@ -54,13 +60,20 @@ void play() {
 
 		bzsf::game::window->clear();
 
-		bzsf::game::window->setView(view);
-
+		bzsf::game::window->setView(Game::view);
+		bzsf::game::window->draw(bg);
 
 		for(Object* o : objects) {
 			o->draw();
 		}
 
+
+
+		bzsf::game::window->setView(bzsf::game::window->getDefaultView());
+
+		std::stringstream ss; ss << "Vel.x: " << objects[0]->velocity.x << "\nVel.y: " << objects[0]->velocity.y;
+		debugText.setString(ss.str());
+		bzsf::game::window->draw(debugText);
 
 		bzsf::game::window->display();
 

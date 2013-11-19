@@ -12,11 +12,16 @@ namespace GameState {
 	};
 }
 
+#include "res.h"
+
 #include "objects.h"
 
 #include "game_functions.hpp"
 
 int main(int argc, char* argv[]) {
+
+	LoadResources();
+
 
 	bzsf::game::addFunc(GameState::Menu, menu);
 	bzsf::game::addFunc(GameState::Play, play);
