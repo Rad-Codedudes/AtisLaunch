@@ -24,10 +24,12 @@ namespace GameState {
 
 void play() {
 
-	sf::Text debugText("Hej!", Resource::defaultFont, 30);
+	sf::Text debugText("Hej!", Resource::defaultFont, 20);
+	debugText.setColor(sf::Color(255, 132, 100));
+
 
 	Resource::background.setRepeated(true);
-	sf::Sprite bg(Resource::background, sf::IntRect(0, 0, 10000, 10000));
+	sf::Sprite bg(Resource::background, sf::IntRect(0, 0, 100000, 10000000));
 
 	
 	objects.push_back(new Player());
