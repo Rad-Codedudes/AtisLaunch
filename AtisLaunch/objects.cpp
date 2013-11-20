@@ -12,6 +12,8 @@ namespace GameState {
 	};
 }
 
+#include "res.h"
+
 #include "objects.h"
 
 #include "game_functions.hpp"
@@ -108,7 +110,7 @@ void Player::Tick(sf::Time mDelta) {
 
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-					velocity.y -= 100 * mDelta.asSeconds();
+					velocity.y -= 1000 * mDelta.asSeconds();
 
 
 		velocity += Game::gravity * Game::scale * mDelta.asSeconds();
@@ -119,11 +121,20 @@ void Player::Tick(sf::Time mDelta) {
 		boundaryRect.setPosition(centerPos);
 
 		Game::view.setCenter(centerPos);
+
+
+
+		// Update posText
+		std::stringstream ss; ss << centerPos.x << std::endl << centerPos.y;
+		posText.setString(ss.str());
+		posText.setPosition(centerPos + offsetPos - sf::Vector2f(32, 64));
 	}
 }
 
 void Player::draw() {
 	bzsf::game::window->draw(boundaryRect);
+
+	bzsf::game::window->draw(posText);
 
 	bzsf::game::window->draw(entity);
 }
@@ -131,7 +142,8 @@ void Player::draw() {
 
 Player::Player() : centerPos(100, 600), 
 				offsetPos(0, 0),
-				boundaryRect(sf::Vector2f(offsetBoundaryRect.width, offsetBoundaryRect.height)) {
+				boundaryRect(sf::Vector2f(offsetBoundaryRect.width, offsetBoundaryRect.height)),
+				posText("", Resource::defaultFont, 12) {
 	
 	sf::Image img; img.create(32, 32, sf::Color(255, 0, 0));
 	sf::Texture tex; tex.loadFromImage(img);
@@ -144,6 +156,8 @@ Player::Player() : centerPos(100, 600),
 	boundaryRect.setOutlineThickness(2.f);
 	boundaryRect.setOutlineColor(sf::Color());
 	boundaryRect.setFillColor(sf::Color(240, 240, 255, 128));
+
+	posText.setColor(sf::Color());
 
 	velocity = sf::Vector2f(100, -100);
 	mass = 80;

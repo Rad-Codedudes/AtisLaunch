@@ -34,6 +34,8 @@ class Player : public Object {
 
 	static const sf::FloatRect offsetBoundaryRect;
 
+	sf::Text posText;
+
 
 	sf::Vector2f CalculateOffset();
 

@@ -73,7 +73,9 @@ void play() {
 
 		bzsf::game::window->setView(bzsf::game::window->getDefaultView());
 
-		std::stringstream ss; ss << "Vel.x: " << objects[0]->velocity.x << "\nVel.y: " << objects[0]->velocity.y;
+		std::stringstream ss; 
+		ss << "Vel.x: " << objects[0]->velocity.x
+			<< "\nVel.y: " << objects[0]->velocity.y;
 		debugText.setString(ss.str());
 		bzsf::game::window->draw(debugText);
 
