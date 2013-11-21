@@ -77,15 +77,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="collision.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objects.cpp" />
     <ClCompile Include="play.cpp" />
     <ClCompile Include="res.cpp" />
+    <ClCompile Include="screenshake.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="collision.h" />
     <ClInclude Include="game_functions.hpp" />
+    <ClInclude Include="includes.h" />
     <ClInclude Include="objects.h" />
     <ClInclude Include="res.h" />
+    <ClInclude Include="screenshake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

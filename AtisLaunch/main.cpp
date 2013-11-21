@@ -1,24 +1,16 @@
+#include "includes.h"
 
-#include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
 
-#include <BZeps-SFML-Snippets\SFML_Snips.hpp>
-
-namespace GameState {
-	enum State {
-		Menu,
-		Play,
-		Die
-	};
+namespace sf {
+	float operator /(Time left, Time right) {
+		return left.asSeconds() / right.asSeconds();
+	}
 }
 
-#include "res.h"
 
-#include "objects.h"
-
-#include "game_functions.hpp"
 
 int main(int argc, char* argv[]) {
+	srand((unsigned int)time(NULL));
 
 	LoadResources();
 
@@ -29,7 +21,7 @@ int main(int argc, char* argv[]) {
 
 	bzsf::game::currentState = GameState::Play;
 
-	bzsf::game::window = new sf::RenderWindow(sf::VideoMode(1280, 720, 32), "AtisLaunch", sf::Style::Close);
+	bzsf::game::window = new sf::RenderWindow(sf::VideoMode(Game::windowSize.x, Game::windowSize.y, 32), "AtisLaunch", sf::Style::Close);
 
 	return bzsf::game::runGame();
 }

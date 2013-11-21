@@ -1,22 +1,5 @@
 
-#include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
-
-#include <BZeps-SFML-Snippets\SFML_Snips.hpp>
-
-namespace GameState {
-	enum State {
-		Menu,
-		Play,
-		Die
-	};
-}
-
-#include "res.h"
-
-#include "objects.h"
-
-#include "game_functions.hpp"
+#include "includes.h"
 
 
 
@@ -24,11 +7,14 @@ namespace GameState {
 
 bool Game::launched = false;
 
-sf::Vector2f Game::gravity = sf::Vector2f(0, 9.82f);
+sf::Vector2f Game::gravity = sf::Vector2f(-0.01f, 9.82f);
 
 float Game::scale = 10;
 
-sf::View Game::view(sf::Vector2f(640, 360), sf::Vector2f(1280, 720));
+sf::Vector2u Game::windowSize(1280, 720);
+
+sf::View Game::view(sf::Vector2f(Game::windowSize.x / 2, Game::windowSize.y / 2), sf::Vector2f(Game::windowSize.x, Game::windowSize.y));
+
 
 
 
@@ -46,7 +32,7 @@ void Object::Tick(sf::Time) {}
 
 
 const sf::FloatRect Player::offsetBoundaryRect = sf::FloatRect(-100, -100, 200, 200);
-
+const float Player::maxFallSpeed = 60.f;
 
 sf::Vector2f Player::CalculateOffset() {
 	sf::Vector2f offset(0, 0);
@@ -110,19 +96,36 @@ void Player::Tick(sf::Time mDelta) {
 
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-					velocity.y -= 1000 * mDelta.asSeconds();
+					velocity.y -= Game::gravity.y * 10 * Game::scale * mDelta.asSeconds();
 
 
 		velocity += Game::gravity * Game::scale * mDelta.asSeconds();
+		if(velocity.y > (maxFallSpeed * Game::scale)) velocity.y = maxFallSpeed * Game::scale;
 
 		centerPos += velocity * Game::scale * mDelta.asSeconds();
 
 		entity.setPosition(centerPos + offsetPos);
 		boundaryRect.setPosition(centerPos);
 
+
+		// ScreenShake ////////
+		ScreenShake::Apply(-airShake); // Remove earlier shake
+		
+		if(velocity.y > 0) {
+			airShake = 0.1f * (velocity.y / maxFallSpeed) * Game::scale;
+			ScreenShake::Apply(airShake);
+		} else airShake = 0;
+		///////////////////////
+
+
+		// View ////
 		Game::view.setCenter(centerPos);
 
+		if(velocity.y > 0) {
+			Game::view.setSize(sf::Vector2f(Game::windowSize.x, Game::windowSize.y) * (1.f+(velocity.y/maxFallSpeed)*0.1f));
+		}
 
+		////////////
 
 		// Update posText
 		std::stringstream ss; ss << centerPos.x << std::endl << centerPos.y;
@@ -143,6 +146,7 @@ void Player::draw() {
 Player::Player() : centerPos(100, 600), 
 				offsetPos(0, 0),
 				boundaryRect(sf::Vector2f(offsetBoundaryRect.width, offsetBoundaryRect.height)),
+				airShake(0),
 				posText("", Resource::defaultFont, 12) {
 	
 	sf::Image img; img.create(32, 32, sf::Color(255, 0, 0));

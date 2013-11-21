@@ -1,25 +1,4 @@
-#include <vector>
-#include <sstream>
-
-
-#include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
-
-#include <BZeps-SFML-Snippets\SFML_Snips.hpp>
-
-namespace GameState {
-	enum State {
-		Menu,
-		Play,
-		Die
-	};
-}
-
-#include "res.h"
-
-#include "objects.h"
-
-#include "game_functions.hpp"
+#include "includes.h"
 
 
 void play() {
@@ -27,14 +6,19 @@ void play() {
 	sf::Text debugText("Hej!", Resource::defaultFont, 20);
 	debugText.setColor(sf::Color(255, 132, 100));
 
+	sf::Text fpsText("", Resource::fpsFont, 16);
+	fpsText.setColor(sf::Color());
+	fpsText.setPosition(Game::windowSize.x - 100, Game::windowSize.y - 20);
+
 
 	Resource::background.setRepeated(true);
 	sf::Sprite bg(Resource::background, sf::IntRect(0, 0, 100000, 10000000));
 
-	
-	objects.push_back(new Player());
+	Player* player = new Player();
+	objects.push_back(player);
 
 	sf::Clock deltaClock;
+	sf::Clock fpsClock;
 	sf::Event event;
 	while(bzsf::game::currentState == GameState::Play) {
 
@@ -50,6 +34,8 @@ void play() {
 				case sf::Event::KeyPressed:
 					if(event.key.code == sf::Keyboard::Escape) {
 						bzsf::game::currentState = GameState::Die;
+					} else if(event.key.code == sf::Keyboard::Q) {
+						ScreenShake::Apply(100, sf::seconds(1));
 					}
 					break;
 			}
@@ -62,7 +48,7 @@ void play() {
 
 		bzsf::game::window->clear();
 
-		bzsf::game::window->setView(Game::view);
+		ScreenShake::SetView(Game::view);
 		bzsf::game::window->draw(bg);
 
 		for(Object* o : objects) {
@@ -74,10 +60,17 @@ void play() {
 		bzsf::game::window->setView(bzsf::game::window->getDefaultView());
 
 		std::stringstream ss; 
-		ss << "Vel.x: " << objects[0]->velocity.x
-			<< "\nVel.y: " << objects[0]->velocity.y;
+		ss << "Vel.x: " << player->velocity.x
+			<< "\nVel.y: " << player->velocity.y;
 		debugText.setString(ss.str());
 		bzsf::game::window->draw(debugText);
+
+		if(fpsClock.getElapsedTime() > sf::seconds(0.1)) {
+			char cfps[8]; _itoa(sf::seconds(1) / mDelta, cfps, 10);
+			fpsText.setString(cfps);
+			fpsClock.restart();
+		}
+		bzsf::game::window->draw(fpsText);
 
 		bzsf::game::window->display();
 

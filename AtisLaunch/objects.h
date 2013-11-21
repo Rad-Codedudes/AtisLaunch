@@ -8,6 +8,8 @@ public:
 	static float scale;
 
 	static sf::View view;
+
+	static sf::Vector2u windowSize;
 };
 
 
@@ -32,7 +34,10 @@ class Player : public Object {
 
 	sf::RectangleShape boundaryRect;
 
+	float airShake;
+
 	static const sf::FloatRect offsetBoundaryRect;
+	static const float maxFallSpeed;
 
 	sf::Text posText;
 
