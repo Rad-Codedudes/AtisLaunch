@@ -5,6 +5,12 @@ std::vector<std::pair<sf::Time, float>> ScreenShake::decay = std::vector<std::pa
 sf::Clock ScreenShake::clock = sf::Clock();
 
 
+void ScreenShake::Reset() {
+	shake = 0;
+	decay.erase(decay.begin(), decay.end());
+	clock.restart();
+}
+
 
 void ScreenShake::Apply(float v, sf::Time decayTime) {
 	shake += v;
@@ -59,5 +65,5 @@ void ScreenShake::SetView(sf::View& view) {
 	view.setCenter(pos);
 	view.setRotation(rot);
 
-	std::cout << sPos.x << " " << sPos.y << std::endl;
+	//std::cout << sPos.x << " " << sPos.y << std::endl;
 }

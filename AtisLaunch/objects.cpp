@@ -81,13 +81,11 @@ sf::Vector2f Player::CalculateOffset() {
 void Player::Tick(sf::Time mDelta) {
 	
 	if(!Game::launched) {
-
-		entity.setPosition(centerPos);
-
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			Game::launched = true;
+		if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			PreLaunch(sf::Vector2f(sf::Mouse::getPosition(*bzsf::game::window).x, sf::Mouse::getPosition(*bzsf::game::window).y));
 		}
 
+		entity.setPosition(centerPos + offsetPos);
 	} else {
 
 		//// Offset //////////////////
@@ -103,6 +101,11 @@ void Player::Tick(sf::Time mDelta) {
 		if(velocity.y > (maxFallSpeed * Game::scale)) velocity.y = maxFallSpeed * Game::scale;
 
 		centerPos += velocity * Game::scale * mDelta.asSeconds();
+		if(centerPos.y + offsetPos.y > 1000) {
+			velocity.x *= Upgrades::xBounceFriction;
+			velocity.y *= -Upgrades::yBounceFriction;
+			centerPos.y = 1000 - offsetPos.y;
+		}
 
 		entity.setPosition(centerPos + offsetPos);
 		boundaryRect.setPosition(centerPos);
@@ -143,7 +146,7 @@ void Player::draw() {
 }
 
 
-Player::Player() : centerPos(100, 600), 
+Player::Player() : centerPos(Game::windowSize.x/2, Game::windowSize.y/2), 
 				offsetPos(0, 0),
 				boundaryRect(sf::Vector2f(offsetBoundaryRect.width, offsetBoundaryRect.height)),
 				airShake(0),
@@ -165,4 +168,26 @@ Player::Player() : centerPos(100, 600),
 
 	velocity = sf::Vector2f(100, -100);
 	mass = 80;
+}
+
+std::pair<float, sf::Vector2f> Player::PreLaunch(sf::Vector2f mPos) {
+	sf::Vector2f dist;
+	dist.x = (mPos.x - centerPos.x) + Game::view.getCenter().x - Game::view.getSize().x / 2;
+	dist.y = (mPos.y - centerPos.y) + Game::view.getCenter().y - Game::view.getSize().y / 2;
+
+	float angle = atan(dist.y / dist.x);
+	if(dist.x < 0) angle += bzsf::PI;
+	offsetPos.x = cos(angle) * 100;
+	offsetPos.y = sin(angle) * 100;
+
+	return std::make_pair(angle, dist);
+}
+
+void Player::Launch() {
+	std::pair<float, sf::Vector2f> pair = PreLaunch(sf::Vector2f(sf::Mouse::getPosition(*bzsf::game::window).x, sf::Mouse::getPosition(*bzsf::game::window).y));
+
+	velocity.x = cos(pair.first + bzsf::PI) * Upgrades::launchVelocity * Game::scale;
+	velocity.y = sin(pair.first + bzsf::PI) * Upgrades::launchVelocity * Game::scale;
+
+	Game::launched = true;
 }

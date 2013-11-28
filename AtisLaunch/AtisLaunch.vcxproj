@@ -83,6 +83,7 @@
     <ClCompile Include="play.cpp" />
     <ClCompile Include="res.cpp" />
     <ClCompile Include="screenshake.cpp" />
+    <ClCompile Include="upgrades.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="objects.h" />
     <ClInclude Include="res.h" />
     <ClInclude Include="screenshake.h" />
+    <ClInclude Include="upgrades.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

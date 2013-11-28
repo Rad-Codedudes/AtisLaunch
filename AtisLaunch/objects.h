@@ -46,6 +46,9 @@ class Player : public Object {
 
 
 public:
+	std::pair<float, sf::Vector2f> PreLaunch(sf::Vector2f);
+	void Launch();
+
 	void Tick(sf::Time);
 
 	Player();

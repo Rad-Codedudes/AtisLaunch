@@ -1,6 +1,7 @@
 #include <vector>
 #include <sstream>
 #include <time.h>
+#include <math.h>
 
 
 #include <SFML\Graphics.hpp>
@@ -19,6 +20,7 @@ namespace GameState {
 #include "res.h"
 #include "screenshake.h"
 
+#include "upgrades.h"
 #include "objects.h"
 
 #include "game_functions.hpp"

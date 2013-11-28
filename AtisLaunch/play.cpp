@@ -36,7 +36,24 @@ void play() {
 						bzsf::game::currentState = GameState::Die;
 					} else if(event.key.code == sf::Keyboard::Q) {
 						ScreenShake::Apply(100, sf::seconds(1));
+					} else if(event.key.code == sf::Keyboard::R) {
+						Game::launched = false;
+						for(Object* o : objects) {
+							delete o;
+						}
+						objects.erase(objects.begin(), objects.end());
+
+						player = new Player();
+						objects.push_back(player);
+
+						Game::view.setCenter(sf::Vector2f(Game::windowSize.x/2, Game::windowSize.y/2));
+						ScreenShake::Reset();
 					}
+					break;
+
+				case sf::Event::MouseButtonReleased:
+					if(event.mouseButton.button == sf::Mouse::Left && !Game::launched)
+						player->Launch();
 					break;
 			}
 		}

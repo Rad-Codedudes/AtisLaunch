@@ -6,6 +6,8 @@ class ScreenShake {
 	static sf::Clock clock;
 
 public:
+	static void Reset();
+
 	static void Apply(float v);
 	static void Apply(float v, float decayps);
 	static void Apply(float v, sf::Time decayTime);
