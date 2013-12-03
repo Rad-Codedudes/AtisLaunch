@@ -46,7 +46,9 @@ void play() {
 						player = new Player();
 						objects.push_back(player);
 
+
 						Game::view.setCenter(sf::Vector2f(Game::windowSize.x/2, Game::windowSize.y/2));
+						Game::view.setSize(sf::Vector2f(Game::windowSize.x, Game::windowSize.y));
 						ScreenShake::Reset();
 					}
 					break;

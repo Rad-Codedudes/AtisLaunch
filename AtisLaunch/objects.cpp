@@ -19,9 +19,7 @@ sf::View Game::view(sf::Vector2f(Game::windowSize.x / 2, Game::windowSize.y / 2)
 
 
 
-Object::Object() : bzsf::Drawable(), velocity(0,0), mass(0) {
-	
-}
+Object::Object() : bzsf::Drawable(), velocity(0,0), mass(0) {}
 
 Object::~Object() {}
 
@@ -102,6 +100,8 @@ void Player::Tick(sf::Time mDelta) {
 
 		centerPos += velocity * Game::scale * mDelta.asSeconds();
 		if(centerPos.y + offsetPos.y > 1000) {
+			//ScreenShake::Apply((velocity.y/maxFallSpeed)*50, sf::seconds(0.5));
+
 			velocity.x *= Upgrades::xBounceFriction;
 			velocity.y *= -Upgrades::yBounceFriction;
 			centerPos.y = 1000 - offsetPos.y;
@@ -166,7 +166,7 @@ Player::Player() : centerPos(Game::windowSize.x/2, Game::windowSize.y/2),
 
 	posText.setColor(sf::Color());
 
-	velocity = sf::Vector2f(100, -100);
+	velocity = sf::Vector2f(0, 0);
 	mass = 80;
 }
 
@@ -190,4 +190,23 @@ void Player::Launch() {
 	velocity.y = sin(pair.first + bzsf::PI) * Upgrades::launchVelocity * Game::scale;
 
 	Game::launched = true;
+}
+
+
+
+
+void Enemy::Tick(sf::Time mDelta) {
+	GetEntity().move(velocity * Game::scale * mDelta.asSeconds());
+}
+
+Enemy::Enemy(sf::Vector2f pos, sf::Vector2f vel, float _mass) {
+	sf::Image img; img.create(32, 32, sf::Color(0, 128, 128));
+	sf::Texture tex; tex.loadFromImage(img);
+	SetTexture(tex);
+	entity.setOrigin(entity.getLocalBounds().width / 2,
+					 entity.getLocalBounds().height / 2);
+	entity.setPosition(pos);
+
+	velocity = vel;
+	mass = _mass;
 }

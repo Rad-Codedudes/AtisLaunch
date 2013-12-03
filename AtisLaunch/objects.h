@@ -55,3 +55,10 @@ public:
 
 	void draw();
 };
+
+
+class Enemy : public Object {
+public:
+	void Tick(sf::Time);
+	Enemy(sf::Vector2f pos, sf::Vector2f vel, float _mass);
+};

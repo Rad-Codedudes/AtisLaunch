@@ -21,7 +21,12 @@ int main(int argc, char* argv[]) {
 
 	bzsf::game::currentState = GameState::Play;
 
-	bzsf::game::window = new sf::RenderWindow(sf::VideoMode(Game::windowSize.x, Game::windowSize.y, 32), "AtisLaunch", sf::Style::Close);
+	bzsf::game::window = new sf::RenderWindow(sf::VideoMode(Game::windowSize.x, 
+															Game::windowSize.y, 
+															32), 
+											"AtisLaunch", 
+											sf::Style::Close);
+
 	bzsf::game::window->setVerticalSyncEnabled(true);
 
 	return bzsf::game::runGame();
