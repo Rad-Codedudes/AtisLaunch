@@ -46,6 +46,8 @@ void play() {
 						for(Object* o : objects) {
 							delete o;
 						}
+						nextObject = 100;
+
 						objects.erase(objects.begin(), objects.end());
 
 						player = new Player();
@@ -71,14 +73,17 @@ void play() {
 
 		if (player->GetEntity().getPosition().x >= nextObject) {
 			//Spawn object
+
 			do {
+				sf::Vector2f pos(player->GetEntity().getPosition().x + 1000 + rand() % 300, (-200) + rand() % 1200);
+
+				objects.push_back(new Enemy(pos, sf::Vector2f(0,0)));
+					
+
+			} while (rand() % 2 == 0);
 
 
-			} while (rand() % 10 == 9);
-
-
-
-			nextObject += rand() % 750;
+			nextObject += (rand() % 200);
 
 		}
 
