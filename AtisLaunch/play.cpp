@@ -17,12 +17,17 @@ void play() {
 	Player* player = new Player();
 	objects.push_back(player);
 
+	double nextObject = 100;
+
 	sf::Clock deltaClock;
 	sf::Clock fpsClock;
 	sf::Event event;
 	while(bzsf::game::currentState == GameState::Play) {
 
 		sf::Time mDelta = deltaClock.restart();
+
+		
+
 
 		while(bzsf::game::window->pollEvent(event)) {
 			switch(event.type) {
@@ -62,6 +67,19 @@ void play() {
 
 		for(Object* o : objects) {
 			o->Tick(mDelta);
+		}
+
+		if (player->GetEntity().getPosition().x >= nextObject) {
+			//Spawn object
+			do {
+
+
+			} while (rand() % 10 == 9);
+
+
+
+			nextObject += rand() % 750;
+
 		}
 
 
