@@ -128,7 +128,7 @@ void Player::Tick(sf::Time mDelta) {
 			Game::view.setSize(sf::Vector2f(Game::windowSize.x, Game::windowSize.y) * (1.f+(velocity.y/maxFallSpeed)*0.1f));
 		} else {
 			if(Game::view.getSize().x > Game::windowSize.x) {
-				if(Game::view.getSize().x - 1280 * mDelta.asSeconds() <= Game::windowSize.x) Game::view.setSize(sf::Vector2f(Game::windowSize.x, Game::windowSize.y));
+				if(Game::view.getSize().x - 1280 * mDelta.asSeconds() * Game::scale / 2.f <= Game::windowSize.x) Game::view.setSize(sf::Vector2f(Game::windowSize.x, Game::windowSize.y));
 				else Game::view.setSize(sf::Vector2f(Game::view.getSize().x - 1280 * mDelta.asSeconds() * Game::scale/2.f, Game::view.getSize().y - 720 * mDelta.asSeconds() * Game::scale/2.f));
 			}
 		}

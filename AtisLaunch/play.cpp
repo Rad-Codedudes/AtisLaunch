@@ -75,7 +75,10 @@ void play() {
 			//Spawn object
 
 			do {
-				sf::Vector2f pos(player->GetEntity().getPosition().x + 1000 + rand() % 300, (-200) + rand() % 1200);
+				sf::Vector2f pos(1000 + rand() % 300, -600 + rand() % 1200);
+
+				pos.y += player->GetEntity().getPosition().y + (player->velocity.y / player->velocity.x) * pos.x;
+				pos.x += player->GetEntity().getPosition().x;
 
 				objects.push_back(new Enemy(pos, sf::Vector2f(0,0)));
 					
