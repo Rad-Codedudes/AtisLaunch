@@ -7,7 +7,7 @@ sf::Clock ScreenShake::clock = sf::Clock();
 
 void ScreenShake::Reset() {
 	shake = 0;
-	decay.erase(decay.begin(), decay.end());
+	decay.erase(decay.begin(), decay.end()); // Tøm vektoren
 	clock.restart();
 }
 
@@ -27,8 +27,10 @@ void ScreenShake::Apply(float v) { shake += v; }
 void ScreenShake::SetView(sf::View& view) {
 	sf::Time elapsed = clock.restart();
 
+	// Fjern fra vektoren hvis tiden er gået
 	decay.erase(std::remove_if(decay.begin(), decay.end(), [](const std::pair<sf::Time, float>& p) {return p.first == sf::Time::Zero; }),
 				decay.end());
+
 
 	for(std::pair<sf::Time, float>& p : decay) {
 		if(elapsed < p.first) {
@@ -64,6 +66,4 @@ void ScreenShake::SetView(sf::View& view) {
 
 	view.setCenter(pos);
 	view.setRotation(rot);
-
-	//std::cout << sPos.x << " " << sPos.y << std::endl;
 }

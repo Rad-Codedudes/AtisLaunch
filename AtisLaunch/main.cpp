@@ -10,7 +10,7 @@ namespace sf {
 
 
 int main(int argc, char* argv[]) {
-	srand((unsigned int)time(NULL));
+	srand((unsigned int)time(NULL)); // Sæt et seed til tilfældighedsgeneratoren
 
 	LoadResources();
 
@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
 
 	bzsf::game::currentState = GameState::Play;
 
+	// Lav vindue
 	bzsf::game::window = new sf::RenderWindow(sf::VideoMode(Game::windowSize.x, 
 															Game::windowSize.y, 
 															32), 
@@ -29,7 +30,7 @@ int main(int argc, char* argv[]) {
 
 	bzsf::game::window->setVerticalSyncEnabled(true);
 
-	return bzsf::game::runGame();
+	return bzsf::game::runGame(); // KØR SPILLET
 }
 
 

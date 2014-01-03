@@ -79,7 +79,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="collision.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objects.cpp" />
     <ClCompile Include="play.cpp" />
@@ -88,7 +87,6 @@
     <ClCompile Include="upgrades.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="collision.h" />
     <ClInclude Include="game_functions.hpp" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="objects.h" />

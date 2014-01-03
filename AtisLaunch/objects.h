@@ -1,4 +1,5 @@
 
+// Spil-klassen
 class Game {
 public:
 	static bool launched;
@@ -13,14 +14,14 @@ public:
 };
 
 
-
+// Objekt-klassen
 class Object : public bzsf::Drawable {
 public:
 	sf::Vector2f velocity;
 
 	float mass;
 
-	virtual void Tick(sf::Time);
+	virtual void Tick(sf::Time); // Tick kaldes hver frame. virtual anvendes da funktionen skal overskrives af arvende objekter
 
 	Object();
 	virtual ~Object();
@@ -28,6 +29,7 @@ public:
 
 
 
+// Spiller-klassen (arver fra Object)
 class Player : public Object {
 	sf::Vector2f centerPos;
 	sf::Vector2f offsetPos;

@@ -1,9 +1,10 @@
 #include "includes.h"
 
+// Global definition af upgraderingsprocessen
 
 namespace Upgrades {
-	float launchVelocity = 20;
+	float launchVelocity = 20.f;
 
-	float xBounceFriction = 0.5;
-	float yBounceFriction = 0.5;
+	float xBounceFriction = 0.5f;
+	float yBounceFriction = 0.5f;
 }

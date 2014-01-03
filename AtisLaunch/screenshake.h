@@ -1,4 +1,5 @@
 
+// Klasse til håndtering af rystning af skærmen ("Screen Shake")
 
 class ScreenShake {
 	static float shake;

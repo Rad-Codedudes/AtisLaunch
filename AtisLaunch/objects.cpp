@@ -33,6 +33,9 @@ const sf::FloatRect Player::offsetBoundaryRect = sf::FloatRect(-100, -100, 200, 
 const float Player::maxFallSpeed = 60.f;
 
 sf::Vector2f Player::CalculateOffset() {
+	// Denne funktion udregner hvor playeren skal placeres inden for sin bevægelighedsrektangel
+	// Spilleren kan bevæge sige inden for denne rektangel vha. WASD-knapperne
+
 	sf::Vector2f offset(0, 0);
 
 
@@ -92,15 +95,18 @@ void Player::Tick(sf::Time mDelta) {
 
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-					velocity.y -= Game::gravity.y * 10 * Game::scale * mDelta.asSeconds();
+				velocity.y -= Game::gravity.y * 10 * Game::scale * mDelta.asSeconds(); // Flyv opad hvis man holder space inde
 
-
+		// Tyngdekraft
 		velocity += Game::gravity * Game::scale * mDelta.asSeconds();
 		if(velocity.y > (maxFallSpeed * Game::scale)) velocity.y = maxFallSpeed * Game::scale;
 
+
+		// Bevæg objektet
 		centerPos += velocity * Game::scale * mDelta.asSeconds();
-		if(centerPos.y + offsetPos.y > 1000) {
-			//ScreenShake::Apply((velocity.y/maxFallSpeed)*50, sf::seconds(0.5));
+
+
+		if(centerPos.y + offsetPos.y > 1000) { // Hvis man kolliderer med jorden skal man hoppe op igen
 
 			velocity.x *= Upgrades::xBounceFriction;
 			velocity.y *= -Upgrades::yBounceFriction;
@@ -124,7 +130,7 @@ void Player::Tick(sf::Time mDelta) {
 		// View ////
 		Game::view.setCenter(centerPos);
 
-		if(velocity.y > 0) {
+		if(velocity.y > 0) { // Gør alting mindre hvis man flyver nedad
 			Game::view.setSize(sf::Vector2f(Game::windowSize.x, Game::windowSize.y) * (1.f+(velocity.y/maxFallSpeed)*0.1f));
 		} else {
 			if(Game::view.getSize().x > Game::windowSize.x) {
@@ -175,6 +181,8 @@ Player::Player() : centerPos(Game::windowSize.x/2, Game::windowSize.y/2),
 	mass = 80;
 }
 
+
+// Denne funktion hjælper programmet med at udregne hvor den skal stille spilleren inden man har skudt ham af sted
 std::pair<float, sf::Vector2f> Player::PreLaunch(sf::Vector2f mPos) {
 	sf::Vector2f dist;
 	dist.x = (mPos.x - centerPos.x) + Game::view.getCenter().x - Game::view.getSize().x / 2;
@@ -188,6 +196,8 @@ std::pair<float, sf::Vector2f> Player::PreLaunch(sf::Vector2f mPos) {
 	return std::make_pair(angle, dist);
 }
 
+
+// Skyd spilleren af sted
 void Player::Launch() {
 	std::pair<float, sf::Vector2f> pair = PreLaunch(sf::Vector2f(sf::Mouse::getPosition(*bzsf::game::window).x, sf::Mouse::getPosition(*bzsf::game::window).y));
 

@@ -3,11 +3,13 @@
 #include <time.h>
 #include <math.h>
 
-
+// Grafik funktioner
 #include <SFML\Graphics.hpp>
 #include <SFML\Audio.hpp>
 
+// Extension
 #include <BZeps-SFML-Snippets\SFML_Snips.hpp>
+
 
 namespace GameState {
 	enum State {
@@ -17,7 +19,8 @@ namespace GameState {
 	};
 }
 
-#include "res.h"
+#include "res.h" // resources
+
 #include "screenshake.h"
 
 #include "upgrades.h"

@@ -17,6 +17,7 @@ void play() {
 	Player* player = new Player();
 	objects.push_back(player);
 
+	// Distance inden næste fjende skal spawnes
 	double nextObject = 100;
 
 	sf::Clock deltaClock;
@@ -24,7 +25,9 @@ void play() {
 	sf::Event event;
 	while(bzsf::game::currentState == GameState::Play) {
 
-		sf::Time mDelta = deltaClock.restart();
+		sf::Time mDelta = deltaClock.restart(); // Udregn tid der er gået siden starten af sidste frame
+		// Dette er vigtigt, da tiden mellem hver frame kan variere, og vi derfor bliver nødt til at
+		// skalere alle bevægelser med denne værdi
 
 		
 
@@ -39,9 +42,7 @@ void play() {
 				case sf::Event::KeyPressed:
 					if(event.key.code == sf::Keyboard::Escape) {
 						bzsf::game::currentState = GameState::Die;
-					} else if(event.key.code == sf::Keyboard::Q) {
-						ScreenShake::Apply(100, sf::seconds(1));
-					} else if(event.key.code == sf::Keyboard::R) {
+					} else if(event.key.code == sf::Keyboard::R) { // Genstart spillet
 						Game::launched = false;
 						for(Object* o : objects) {
 							delete o;
@@ -68,7 +69,7 @@ void play() {
 		}
 
 		for(Object* o : objects) {
-			o->Tick(mDelta);
+			o->Tick(mDelta); // Tick alle objekter
 		}
 
 		if (player->GetEntity().getPosition().x >= nextObject) {
@@ -83,21 +84,21 @@ void play() {
 				objects.push_back(new Enemy(pos, sf::Vector2f(0,0)));
 					
 
-			} while (rand() % 2 == 0);
+			} while (rand() % 3 == 0);
 
 
-			nextObject += (rand() % 200);
+			nextObject += 20 + (rand() % 200);
 
 		}
 
-
+		// Fjern alt fra vinduet
 		bzsf::game::window->clear();
 
 		ScreenShake::SetView(Game::view);
-		bzsf::game::window->draw(bg);
+		bzsf::game::window->draw(bg); // Tegn baggrunden
 
 		for(Object* o : objects) {
-			o->draw();
+			o->draw(); // Tegn alle objekter
 		}
 
 
@@ -110,6 +111,8 @@ void play() {
 		debugText.setString(ss.str());
 		bzsf::game::window->draw(debugText);
 
+
+		// Udregn FPS hvis der er gået mere end 100ms siden det blev gjort sidst
 		if(fpsClock.getElapsedTime() > sf::seconds(0.1)) {
 			char cfps[8]; _itoa(sf::seconds(1) / mDelta, cfps, 10);
 			fpsText.setString(cfps);
