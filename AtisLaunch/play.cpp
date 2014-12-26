@@ -23,7 +23,7 @@ void play() {
 	sf::Clock deltaClock;
 	sf::Clock fpsClock;
 	sf::Event event;
-	while(bzsf::game::currentState == GameState::Play) {
+	while(bzsflegacy::game::currentState == GameState::Play) {
 
 		sf::Time mDelta = deltaClock.restart(); // Udregn tid der er gået siden starten af sidste frame
 		// Dette er vigtigt, da tiden mellem hver frame kan variere, og vi derfor bliver nødt til at
@@ -32,16 +32,16 @@ void play() {
 		
 
 
-		while(bzsf::game::window->pollEvent(event)) {
+		while(bzsflegacy::game::window->pollEvent(event)) {
 			switch(event.type) {
 				case sf::Event::Closed :
-					bzsf::game::currentState = GameState::Die;
+					bzsflegacy::game::currentState = GameState::Die;
 					break;
 
 
 				case sf::Event::KeyPressed:
 					if(event.key.code == sf::Keyboard::Escape) {
-						bzsf::game::currentState = GameState::Die;
+						bzsflegacy::game::currentState = GameState::Die;
 					} else if(event.key.code == sf::Keyboard::R) { // Genstart spillet
 						Game::launched = false;
 						for(Object* o : objects) {
@@ -72,14 +72,14 @@ void play() {
 			o->Tick(mDelta); // Tick alle objekter
 		}
 
-		if (player->GetEntity().getPosition().x >= nextObject) {
+		if (player->getPosition().x >= nextObject) {
 			//Spawn object
 
 			do {
 				sf::Vector2f pos(1000 + rand() % 300, -600 + rand() % 1200);
 
-				pos.y += player->GetEntity().getPosition().y + (player->velocity.y / player->velocity.x) * pos.x;
-				pos.x += player->GetEntity().getPosition().x;
+				pos.y += player->getPosition().y + (player->velocity.y / player->velocity.x) * pos.x;
+				pos.x += player->getPosition().x;
 
 				objects.push_back(new Enemy(pos, sf::Vector2f(0,0)));
 					
@@ -92,24 +92,24 @@ void play() {
 		}
 
 		// Fjern alt fra vinduet
-		bzsf::game::window->clear();
+		bzsflegacy::game::window->clear();
 
 		ScreenShake::SetView(Game::view);
-		bzsf::game::window->draw(bg); // Tegn baggrunden
+		bzsflegacy::game::window->draw(bg); // Tegn baggrunden
 
 		for(Object* o : objects) {
-			o->draw(); // Tegn alle objekter
+			bzsflegacy::game::window->draw(*o); // Tegn alle objekter
 		}
 
 
 
-		bzsf::game::window->setView(bzsf::game::window->getDefaultView());
+		bzsflegacy::game::window->setView(bzsflegacy::game::window->getDefaultView());
 
 		std::stringstream ss; 
 		ss << "Vel.x: " << player->velocity.x
 			<< "\nVel.y: " << player->velocity.y;
 		debugText.setString(ss.str());
-		bzsf::game::window->draw(debugText);
+		bzsflegacy::game::window->draw(debugText);
 
 
 		// Udregn FPS hvis der er gået mere end 100ms siden det blev gjort sidst
@@ -118,9 +118,9 @@ void play() {
 			fpsText.setString(cfps);
 			fpsClock.restart();
 		}
-		bzsf::game::window->draw(fpsText);
+		bzsflegacy::game::window->draw(fpsText);
 
-		bzsf::game::window->display();
+		bzsflegacy::game::window->display();
 
 	}
 }

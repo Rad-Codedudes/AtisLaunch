@@ -83,10 +83,10 @@ void Player::Tick(sf::Time mDelta) {
 	
 	if(!Game::launched) {
 		if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			PreLaunch(sf::Vector2f(sf::Mouse::getPosition(*bzsf::game::window).x, sf::Mouse::getPosition(*bzsf::game::window).y));
+			PreLaunch(sf::Vector2f(sf::Mouse::getPosition(*bzsflegacy::game::window).x, sf::Mouse::getPosition(*bzsflegacy::game::window).y));
 		}
 
-		entity.setPosition(centerPos + offsetPos);
+		setPosition(centerPos + offsetPos);
 	} else {
 
 		//// Offset //////////////////
@@ -113,7 +113,7 @@ void Player::Tick(sf::Time mDelta) {
 			centerPos.y = 1000 - offsetPos.y;
 		}
 
-		entity.setPosition(centerPos + offsetPos);
+		setPosition(centerPos + offsetPos);
 		boundaryRect.setPosition(centerPos);
 
 
@@ -148,14 +148,6 @@ void Player::Tick(sf::Time mDelta) {
 	}
 }
 
-void Player::draw() {
-	bzsf::game::window->draw(boundaryRect);
-
-	bzsf::game::window->draw(posText);
-
-	bzsf::game::window->draw(entity);
-}
-
 
 Player::Player() : centerPos(Game::windowSize.x/2, Game::windowSize.y/2), 
 				offsetPos(0, 0),
@@ -164,10 +156,10 @@ Player::Player() : centerPos(Game::windowSize.x/2, Game::windowSize.y/2),
 				posText("", Resource::defaultFont, 12) {
 	
 	sf::Image img; img.create(32, 32, sf::Color(255, 0, 0));
-	sf::Texture tex; tex.loadFromImage(img);
-	SetTexture(tex);
-	entity.setOrigin(entity.getLocalBounds().width / 2,
-					 entity.getLocalBounds().height / 2);
+	tex.loadFromImage(img);
+	setTexture(tex);
+	setOrigin(getLocalBounds().width / 2,
+					 getLocalBounds().height / 2);
 
 	boundaryRect.setOrigin(offsetBoundaryRect.width / 2,
 						   offsetBoundaryRect.height / 2);
@@ -199,7 +191,7 @@ std::pair<float, sf::Vector2f> Player::PreLaunch(sf::Vector2f mPos) {
 
 // Skyd spilleren af sted
 void Player::Launch() {
-	std::pair<float, sf::Vector2f> pair = PreLaunch(sf::Vector2f(sf::Mouse::getPosition(*bzsf::game::window).x, sf::Mouse::getPosition(*bzsf::game::window).y));
+	std::pair<float, sf::Vector2f> pair = PreLaunch(sf::Vector2f(sf::Mouse::getPosition(*bzsflegacy::game::window).x, sf::Mouse::getPosition(*bzsflegacy::game::window).y));
 
 	velocity.x = cos(pair.first + bzsf::PI) * Upgrades::launchVelocity * Game::scale;
 	velocity.y = sin(pair.first + bzsf::PI) * Upgrades::launchVelocity * Game::scale;
@@ -211,16 +203,16 @@ void Player::Launch() {
 
 
 void Enemy::Tick(sf::Time mDelta) {
-	GetEntity().move(velocity * Game::scale * mDelta.asSeconds());
+	move(velocity * Game::scale * mDelta.asSeconds());
 }
 
 Enemy::Enemy(sf::Vector2f pos, sf::Vector2f vel, float _mass) {
 	sf::Image img; img.create(32, 32, sf::Color(0, 128, 128));
-	sf::Texture tex; tex.loadFromImage(img);
-	SetTexture(tex);
-	entity.setOrigin(entity.getLocalBounds().width / 2,
-					 entity.getLocalBounds().height / 2);
-	entity.setPosition(pos);
+	tex.loadFromImage(img);
+	setTexture(tex);
+	setOrigin(getLocalBounds().width / 2,
+					 getLocalBounds().height / 2);
+	setPosition(pos);
 
 	velocity = vel;
 	mass = _mass;

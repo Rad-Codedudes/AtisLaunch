@@ -8,7 +8,7 @@
 #include <SFML\Audio.hpp>
 
 // Extension
-#include <BZeps-SFML-Snippets\SFML_Snips.hpp>
+#include <bzsf\SFML_Snips.hpp>
 
 
 namespace GameState {

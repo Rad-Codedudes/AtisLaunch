@@ -62,7 +62,7 @@ void ScreenShake::SetView(sf::View& view) {
 	view.setRotation(sRot);
 
 
-	bzsf::game::window->setView(view);
+	bzsflegacy::game::window->setView(view);
 
 	view.setCenter(pos);
 	view.setRotation(rot);

@@ -46,6 +46,8 @@ class Player : public Object {
 
 	sf::Vector2f CalculateOffset();
 
+	sf::Texture tex;
+
 
 public:
 	std::pair<float, sf::Vector2f> PreLaunch(sf::Vector2f);
@@ -54,12 +56,12 @@ public:
 	void Tick(sf::Time);
 
 	Player();
-
-	void draw();
 };
 
 
 class Enemy : public Object {
+	sf::Texture tex;
+
 public:
 	void Tick(sf::Time);
 	Enemy(sf::Vector2f pos, sf::Vector2f vel, float _mass = 0);

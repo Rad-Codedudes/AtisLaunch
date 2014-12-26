@@ -15,22 +15,22 @@ int main(int argc, char* argv[]) {
 	LoadResources();
 
 
-	bzsf::game::addFunc(GameState::Menu, menu);
-	bzsf::game::addFunc(GameState::Play, play);
-	bzsf::game::addFunc(GameState::Die, bzsf::game_die);
+	bzsflegacy::game::addFunc(GameState::Menu, menu);
+	bzsflegacy::game::addFunc(GameState::Play, play);
+	bzsflegacy::game::addFunc(GameState::Die, bzsflegacy::game_die);
 
-	bzsf::game::currentState = GameState::Play;
+	bzsflegacy::game::currentState = GameState::Play;
 
 	// Lav vindue
-	bzsf::game::window = new sf::RenderWindow(sf::VideoMode(Game::windowSize.x, 
+	bzsflegacy::game::window = new sf::RenderWindow(sf::VideoMode(Game::windowSize.x, 
 															Game::windowSize.y, 
 															32), 
 											"AtisLaunch", 
 											sf::Style::Close);
 
-	bzsf::game::window->setVerticalSyncEnabled(true);
+	bzsflegacy::game::window->setVerticalSyncEnabled(true);
 
-	return bzsf::game::runGame(); // KØR SPILLET
+	return bzsflegacy::game::runGame(); // KØR SPILLET
 }
 
 
@@ -38,11 +38,11 @@ void menu() {
 	sf::Clock clock;
 
 	while(clock.getElapsedTime() < sf::seconds(5)) {
-		bzsf::game::window->clear(sf::Color(rand() % 255, rand() % 255, rand() % 255));
-		bzsf::game::window->display();
+		bzsflegacy::game::window->clear(sf::Color(rand() % 255, rand() % 255, rand() % 255));
+		bzsflegacy::game::window->display();
 	}
 
-	bzsf::game::currentState = GameState::Die;
+	bzsflegacy::game::currentState = GameState::Die;
 
 
 }
